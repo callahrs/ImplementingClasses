@@ -3,7 +3,7 @@ A simple   Point   class.
 NOTE: This is NOT rosegraphics -- it is your OWN Point class.
 
 Authors: David Mutchler, Dave Fisher, Valerie Galluzzi, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
+         their colleagues and Riley Callahan.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 
@@ -20,6 +20,7 @@ def main():
     run_test_get_distance_traveled()
     run_test_closer_to()
     run_test_halfway_to()
+
 
 ########################################################################
 # IMPORTANT:
@@ -122,6 +123,30 @@ def run_test_init():
     print('Testing the   __init__   method of the Point class.')
     print('-----------------------------------------------------------')
 
+    class Point(object):
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+    p1 = Point(30, 18)
+    print()
+    print('Expected for p1: 30 18')
+    print('Actual for p1:  ', p1.x, p1.y)
+
+    p2 = Point(100, -40)
+    print()
+    print('Expected for p2: 100 -40')
+    print('Actual for p2:  ', p2.x, p2.y)
+    print('Expected for p1: 30 18')
+    print('Actual for p1:  ', p1.x, p1.y)
+
+    p1.y = 999
+    print()
+    print('Expected for p1: 30 999')
+    print('Actual for p1:  ', p1.x, p1.y)
+    print('Expected for p2: 100 -40')
+    print('Actual for p2:  ', p2.x, p2.y)
+
 
 def run_test_repr():
     """
@@ -171,6 +196,34 @@ def run_test_repr():
     print('-----------------------------------------------------------')
     print('Testing the   __repr__   method of the Point class.')
     print('-----------------------------------------------------------')
+
+    class Point(object):
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+        def __repr__(self):
+            string = 'Point(', self.x, ',', self.y, ')'
+            return string
+
+    p1 = Point(30, 18)
+    print()
+    print('Expected for p1: Point(30, 18)')
+    print('Actual for p1:  ', p1)
+
+    p2 = Point(100, -40)
+    print()
+    print('Expected for p2: Point(100, -40)')
+    print('Actual for p2:  ', p2)
+    print('Expected for p1: Point(30, 18)')
+    print('Actual for p1:  ', p1)
+
+    p1.y = 999
+    print()
+    print('Expected for p1: Point(30, 999)')
+    print('Actual for p1:  ', p1)
+    print('Expected for p2: Point(100, -40)')
+    print('Actual for p2:  ', p2)
 
 
 def run_test_clone():
