@@ -44,6 +44,14 @@ def main():
 # NOTE: For ALL of the methods that you implement, the method is allowed
 # to have additional side effects as needed by it and/or other methods.
 ########################################################################
+class Point(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        string = 'Point(' + str(self.x) + ',' + str(self.y) + ')'
+        return string
 
 
 def run_test_init():
@@ -123,11 +131,6 @@ def run_test_init():
     print('Testing the   __init__   method of the Point class.')
     print('-----------------------------------------------------------')
 
-    class Point(object):
-        def __init__(self, x, y):
-            self.x = x
-            self.y = y
-
     p1 = Point(30, 18)
     print()
     print('Expected for p1: 30 18')
@@ -196,15 +199,6 @@ def run_test_repr():
     print('-----------------------------------------------------------')
     print('Testing the   __repr__   method of the Point class.')
     print('-----------------------------------------------------------')
-
-    class Point(object):
-        def __init__(self, x, y):
-            self.x = x
-            self.y = y
-
-        def __repr__(self):
-            string = 'Point(', self.x, ',', self.y, ')'
-            return string
 
     p1 = Point(30, 18)
     print()
