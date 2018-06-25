@@ -44,11 +44,17 @@ def main():
 # NOTE: For ALL of the methods that you implement, the method is allowed
 # to have additional side effects as needed by it and/or other methods.
 ########################################################################
+import math
+
+
 class Point(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.orginalx = x
+        self.orginaly = y
         self.moves = 0
+        self.distancetraveled = 0
 
     def __repr__(self):
         string = 'Point(' + str(self.x) + ',' + str(self.y) + ')'
@@ -59,17 +65,34 @@ class Point(object):
         return newpoint
 
     def move_to(self, x, y):
+        temppoint = Point(self.x, self.y)
         self.x = x
         self.y = y
         self.moves = self.moves + 1
+        tempdistance = self.get_distance_from(temppoint)
+        self.distancetraveled = self.distancetraveled + tempdistance
 
     def move_by(self, dx, dy):
+        temppoint = Point(self.x, self.y)
         self.x = self.x + dx
         self.y = self.y + dy
         self.moves = self.moves + 1
+        tempdistance = self.get_distance_from(temppoint)
+        self.distancetraveled = self.distancetraveled + tempdistance
 
     def get_number_of_moves_made(self):
         return self.moves
+
+    def get_distance_from(self, end):
+        dist = math.sqrt(((end.x - self.x) ** 2) + ((end.y - self.y) ** 2))
+        return dist
+
+    def get_distance_from_start(self):
+        newpoint = Point(self.orginalx, self.orginaly)
+        return self.get_distance_from(newpoint)
+
+    def get_distance_traveled(self):
+        return self.distancetraveled
 
 
 def run_test_init():
@@ -713,6 +736,45 @@ def run_test_get_distance_from():
     print('Testing the  get_distance_from  method of the Point class.')
     print('-----------------------------------------------------------')
 
+    p1 = Point(1, 5)
+    p2 = Point(10, 5)
+    p3 = Point(13, 9)
+
+    print()
+    print('Expected p1 to p2: 9.0')
+    print('Actual   p1 to p2:', p1.get_distance_from(p2))
+
+    print()
+    print('Expected p2 to p3: 5.0')
+    print('Actual   p2 to p3:', p2.get_distance_from(p3))
+    print('Expected p3 to p2: 5.0')
+    print('Actual   p3 to p2:', p3.get_distance_from(p2))
+
+    print()
+    print('Expected p1 to p3: about 12.65')
+    print('Actual   p1 to p3:', p1.get_distance_from(p3))
+    print('Expected p3 to p1: about 12.65')
+    print('Actual   p3 to p1:', p3.get_distance_from(p1))
+
+    print()
+    print('Expected p1 to p1: 0.0')
+    print('Actual   p1 to p1:', p1.get_distance_from(p1))
+    print('Expected p2 to p2: 0.0')
+    print('Actual   p2 to p2:', p2.get_distance_from(p2))
+    print('Expected p3 to p3: 0.0')
+    print('Actual   p3 to p3:', p3.get_distance_from(p3))
+
+    p4 = p1.clone()
+    print()
+    print('Expected p1 to p4: 0.0')
+    print('Actual   p1 to p4:', p1.get_distance_from(p4))
+    print('Expected p4 to p1: 0.0')
+    print('Actual   p4 to p1:', p4.get_distance_from(p1))
+    print('Expected p4 to p2: 9.0')
+    print('Actual   p4 to p2:', p4.get_distance_from(p2))
+    print('Expected p2 to p4: 9.0')
+    print('Actual   p2 to p4:', p2.get_distance_from(p4))
+
 
 def run_test_get_distance_from_start():
     """
@@ -770,6 +832,36 @@ def run_test_get_distance_from_start():
     print('of the Point class.')
     print('-----------------------------------------------------------')
 
+    p1 = Point(20, 30)
+    p1.move_to(111, 222)
+    p1.move_by(10, 20)
+    p1.move_to(0, 0)
+    p1.move_to(21, 31)
+    print()
+    print('p1 from start to (21, 31), should be about 1.414')
+    print('Actually is:', p1.get_distance_from_start())
+
+    p1.move_by(29, 39)
+    print()
+    print('p1 from start to (50, 70), should be about 50.0')
+    print('Actually is:', p1.get_distance_from_start())
+
+    p2 = Point(1, 1)
+    print()
+    print('p2 from start to (1, 1), should be about 0.0')
+    print('Actually is:', p2.get_distance_from_start())
+
+    p2.move_to(11, 1)
+    print()
+    print('p2 from start to (11, 1), should be about 10.0')
+    print('Actually is:', p2.get_distance_from_start())
+
+    p2.move_to(999, 999)
+    p2.move_to(1, 1)
+    print()
+    print('p2 from start to (1, 1), should be about 0.0')
+    print('Actually is:', p2.get_distance_from_start())
+
 
 def run_test_get_distance_traveled():
     """
@@ -823,6 +915,34 @@ def run_test_get_distance_traveled():
     print('Testing the   get_distance_traveled   method')
     print('of the Point class.')
     print('-----------------------------------------------------------')
+
+    p1 = Point(20, 30)
+    p1.move_to(21, 30)
+    p1.move_to(21, 38)
+    print()
+    print('Expected p1 has traveled 9.0')
+    print('Actual:', p1.get_distance_traveled())
+
+    p1.move_by(1, 1)
+    print()
+    print('Expected p1 has now traveled about 10.414')
+    print('Actual:', p1.get_distance_traveled())
+
+    p2 = Point(0, 0)
+    p3 = Point(100, 22)
+    p4 = Point(0, 555)
+    for k in range(100):
+        p2.move_by(0, k + 1)
+        p3.move_by(k + 1, 0)
+        p4.move_to(k + 1, 555)
+
+    print()
+    print('Expected p2 has now traveled', 101 * 50.0)
+    print('Actual:', p2.get_distance_traveled())
+    print('Expected p3 has now traveled', 101 * 50.0)
+    print('Actual:', p3.get_distance_traveled())
+    print('Expected p4 has now traveled 100.0')
+    print('Actual:', p4.get_distance_traveled())
 
 
 def run_test_closer_to():
